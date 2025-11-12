@@ -3,3 +3,8 @@ git branch -M main
 git push -u origin main
 git add .
 git commit -m "2025nov12-1138" 
+
+pip install djangorestframework
+pip install markdown
+pip install django-filter
+pip install Pillow

@@ -33,3 +33,11 @@ class Sensor(models.Model):
 
     def __str__(self):
         return f"({self.serial}) {self.nombre} {self.fabricante} {self.modelo}"
+
+class Medicion(models.Model):
+    sensor = models.ForeignKey(Sensor, on_delete=models.PROTECT, related_name='mediciones_sensor')
+    fecha_hora = models.DateTimeField()
+    valor = models.IntegerField()
+
+    def __str__(self):
+        return f"{self.sensor.serial} - {self.fecha_hora} - {self.valor}"
