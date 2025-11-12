@@ -1,3 +1,35 @@
 from django.db import models
+from django.core.validators import RegexValidator, MinLengthValidator
 
-# Create your models here.
+
+HOMBRE = 'H'
+MUJER = 'M'
+INDISTINTO = 'I'
+GENERO_CHOICES = [
+    (HOMBRE, 'Hombre'),
+    (MUJER, 'Mujer'),
+    (INDISTINTO, 'Prefiero no decirlo'),
+]
+
+serial_12_validador = RegexValidator(
+    regex=r'^[A-Za-z0-9#_@%$]{12}$',
+    message='El serial debe tener exactamente 12 caracteres: letras, números o # _ @ % $.'
+)
+telefono_validador = RegexValidator(
+    regex=r'^[0-9]{10}$',
+    message='El teléfono debe tener exactamente 10 dígitos.'
+)
+
+class Sensor(models.Model):
+    serial = models.CharField(max_length=12, 
+                              unique=True, 
+                              validators=[serial_12_validador])
+    nombre = models.CharField(max_length=100)
+    descripcion = models.TextField(blank=True, null=True)
+    modelo = models.CharField(max_length=50)
+    fabricante = models.CharField(max_length=50)
+    fecha_compra = models.DateField()
+    activo = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f"({self.serial}) {self.nombre} {self.fabricante} {self.modelo}"
