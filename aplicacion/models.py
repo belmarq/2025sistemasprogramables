@@ -1,6 +1,6 @@
 from django.db import models
 from django.core.validators import RegexValidator, MinLengthValidator
-
+from django.utils import timezone 
 
 HOMBRE = 'H'
 MUJER = 'M'
@@ -36,7 +36,7 @@ class Sensor(models.Model):
 
 class Medicion(models.Model):
     sensor = models.ForeignKey(Sensor, on_delete=models.PROTECT, related_name='mediciones_sensor')
-    fecha_hora = models.DateTimeField()
+    fecha_hora = models.DateTimeField(default=timezone.now, editable=False)
     valor = models.IntegerField()
 
     def __str__(self):
